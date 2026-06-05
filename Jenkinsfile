@@ -2,23 +2,21 @@ pipeline {
     agent any
 
     stages {
-
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                url: 'https://github.com/Depenndra11/Automation.git'
+                git 'https://github.com/Depenndra11/Automation.git'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Install Dependencies') {
             steps {
-                bat 'docker build -t automation-tests .'
+                bat 'pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat 'docker run --rm automation-tests'
+                bat 'pytest -v'
             }
         }
     }
