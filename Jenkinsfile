@@ -17,8 +17,10 @@ pipeline {
                         returnStatus: true
                     ) == 0)
 
-                    if (dockerAvailable) {
-                        echo 'Docker daemon is running.'
+                     def dockerfileExists = fileExists('Dockerfile')
+
+                    if (dockerAvailable && dockerfileExists) {
+                        echo 'Docker available and Dockerfile found.'
 
                         bat 'docker build -t automation-test .'
                         bat 'docker run --rm automation-test'
