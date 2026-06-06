@@ -13,17 +13,17 @@ pipeline {
             steps {
                 script {
                     def dockerAvailable = (bat(
-                        script: 'docker --version',
+                        script: 'docker info',
                         returnStatus: true
                     ) == 0)
 
                     if (dockerAvailable) {
-                        echo 'Docker found. Running tests in Docker.'
+                        echo 'Docker daemon is running.'
 
                         bat 'docker build -t automation-test .'
                         bat 'docker run --rm automation-test'
                     } else {
-                        echo 'Docker not found. Running tests locally.'
+                        echo 'Docker unavailable. Running locally.'
 
                         bat 'pip install -r requirements.txt'
                         bat 'pytest -v'
