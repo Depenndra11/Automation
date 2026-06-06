@@ -1,6 +1,14 @@
 pipeline {
     agent any
 
+    parameters {
+        choice(
+            name: 'TEST_TYPE',
+            choices: ['regression', 'smoke', 'all'],
+            description: 'Select which test suite to run'
+        )
+    }
+
     stages {
         stage('Checkout') {
             steps {
